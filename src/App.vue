@@ -1,29 +1,27 @@
 <template>
   <div class="g-index">
     <h2 class="tit">简版webpack+vue3 手动配置</h2>
-    <div class="content"></div>
+    <div id="nav" v-if="!$route.meta.hide">
+      <router-link to="/">Home</router-link>|
+      <router-link to="/about">About</router-link>
+    </div>
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive" class="router"></router-view>
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive" class="router"></router-view>
   </div>
 </template>
 
 <script>
-export default {
-  metaInfo: {
-    title: 'About page', // set a title
-    meta: [
-      {
-        // set meta
-        name: 'keyWords',
-        content: 'My Example App',
-      },
-    ],
-    link: [
-      {
-        // set link
-        rel: 'asstes',
-        href: 'https://assets-cdn.github.com/',
-      },
-    ],
+import { defineComponent, computed } from 'vue'
+import { useStore } from 'vuex'
+export default defineComponent({
+  setup() {
+    const store = useStore()
+    return {
+      title: computed(() => store.state.title),
+    }
   },
-}
+})
 </script>
 <style lang="scss" scoped></style>
